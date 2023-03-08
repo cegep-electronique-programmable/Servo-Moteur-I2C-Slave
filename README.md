@@ -8,7 +8,7 @@ Le **Servo Moteur I2C** est composé d'un servo-moteur HS-422 (ou équivalent) e
 
 ## Fonctionnement
 
-Le **Servo Moteur I2C** reçoit des commandes codées sur 8 bits signés via son bus I2C. Ensuite, il génère le signal PWM nécessaire pour commander le moteur.
+Le **Servo Moteur I2C** reçoit des commandes *d'écriture*, codées sur 8 bits signés, via son bus I2C. Ensuite, il génère le signal PWM nécessaire pour commander le moteur.
 
 Lorsque le périphérique reçoit des commandes en écriture, il doit réagir de la manière suivante :
 
@@ -17,7 +17,7 @@ Lorsque le périphérique reçoit des commandes en écriture, il doit réagir de
 - `127` : Arrêter le signal PWM
 - Toutes les autres valeurs ne font rien
 
-Lorsque le périphérique reçoit des commandes en lecture, il doit renvoyer sont état sous forme de chaîne de caractères ASCII :
+Le **Servo Moteur I2C** reçoit également des commandes de *lecture* via son bus I2C. Dans ce cas, il doit renvoyer sont état sous forme de **chaîne de caractères ASCII** :
 - `-90` à `+90` si le moteur est en fonctionnement
 - `OFF` si le PWM est désactivé
 
