@@ -1,4 +1,4 @@
-# Servo-Moteur-I2C
+# Servo-Moteur-I2C-Slave
 
 Le projet qui consiste à développer un contrôleur pour commander un servo moteur à l'aide une interface I2C : Le moteur se rend à la position demandée par le message I2C.
 
