@@ -1,6 +1,6 @@
 # Servo-Moteur-I2C
 
-Le projet qui consiste à dévelepper un contrôleur pour commander un servo moteur à l'aide une interface I2C : Le moteur se rend à la position demandée par le message I2C.
+Le projet qui consiste à développer un contrôleur pour commander un servo moteur à l'aide une interface I2C : Le moteur se rend à la position demandée par le message I2C.
 
 ![Schema](./assets/schema.png)
 
@@ -20,6 +20,13 @@ Lorsque le périphérique reçoit des commandes en écriture, il doit réagir de
 Le **Servo Moteur I2C** reçoit également des commandes de *lecture* via son bus I2C. Dans ce cas, il doit renvoyer sont état sous forme de **chaîne de caractères ASCII** :
 - `"-90"` à `"+90"` si le moteur est en fonctionnement
 - `"OFF"` si le PWM est désactivé
+
+### Bonus
+
+Ajouter une commande qui permet de changer l'adresse I2C du périphérique.
+- Au démarrage, le périphérique répond à l'adresse `0x23`.
+- On envoie une nouvelle commande en indiquant sa nouvelle adresse.
+- La périphérique répond maintenant à cette nouvelle adresse jusqu'au prochain redémarrage ou jusqu'au prochain changement d'addresse.
 
 ## Test :
 
