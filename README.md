@@ -18,12 +18,12 @@ Lorsque le périphérique reçoit des commandes en écriture, il doit réagir de
 - Toutes les autres valeurs ne font rien
 
 Le **Servo Moteur I2C** reçoit également des commandes de *lecture* via son bus I2C. Dans ce cas, il doit renvoyer sont état sous forme de **chaîne de caractères ASCII** :
-- `-90` à `+90` si le moteur est en fonctionnement
-- `OFF` si le PWM est désactivé
+- `"-90"` à `"+90"` si le moteur est en fonctionnement
+- `"OFF"` si le PWM est désactivé
 
 ## Test :
 
-Pour vérifier le bon fonctionnement, exécuter la séquence de test suivante avec une pause de `500 ms` entre chaque action :
+Pour vérifier le bon fonctionnement, exécuter la séquence de test suivante avec une pause de `1 s` entre chaque action :
 
 1) Arrêter le signal PWM
 2) Démarrer le signal PWM et aller à la position centrale
