@@ -6,6 +6,8 @@ Le projet qui consiste à développer un contrôleur pour commander un servo mot
 
 Le **Servo Moteur I2C** est composé d'un servo-moteur HS-422 (ou équivalent) et d'une carte de développement Nucléo 64 F072RB. On pourra utiliser la carte LPC1768 (ou n'importe quelle autre carte I2C) pour jouer le rôle du Contrôleur I2C.
 
+Code de départ pour le [contrôleur maitre](https://github.com/cegep-electronique-programmable/Servo-Moteur-I2C-Master).
+
 ## Fonctionnement
 
 Le **Servo Moteur I2C** reçoit des commandes *d'écriture*, codées sur 8 bits signés, via son bus I2C. Ensuite, il génère le signal PWM nécessaire pour commander le moteur.
