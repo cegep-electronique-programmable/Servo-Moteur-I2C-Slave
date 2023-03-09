@@ -73,6 +73,7 @@ int main() {
                 printf("Commande moteur : %d\r\n", commande_recue);
 
                 if (commande_recue == 126) {
+                    moteur.resume();
                     moteur.period_ms(20);
                     moteur.pulsewidth_us(1500);
                 }
