@@ -66,15 +66,29 @@ int main() {
 
             // Si le master envoie une requête de lecture qui nous est adressée
             case I2CSlave::WriteAddressed:
-                printf("WriteAddressed\n");
-                slave.read(read_buffer, 10);
-                printf("Read A: %s\n", read_buffer);
 
+                slave.read(read_buffer, 10);
                 int8_t commande_recue = read_buffer[0];
 
-                ///////////////////////////////////////////
-                // Modifier l'état du moteur en fonction de la commande reçue
-                ///////////////////////////////////////////
+                printf("Commande moteur : %d\r\n", commande_recue);
+
+                if (commande_recue == 126) {
+                    moteur.period_ms(20);
+                    moteur.pulsewidth_us(1500);
+                }
+                else if (commande_recue == 127) {
+                    moteur.suspend();
+                }
+                else if (commande_recue >= -90 && commande_recue <= 90) {
+                    uint16_t pulse_width = 1500 + commande_recue * 6.666;
+                    moteur.period_ms(20);
+                    moteur.pulsewidth_us(pulse_width);
+                    printf("Aller a position %d°, pulse width %d\r\n", commande_recue, pulse_width);
+                }
+                else {
+                    printf("Commande invalide\r\n");
+                }
+            
                 break;
 
         }
