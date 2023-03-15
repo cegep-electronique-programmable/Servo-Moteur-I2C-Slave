@@ -18,15 +18,16 @@ PwmOut moteur(PB_4);
 
 // Les états possibles du moteur
 enum etat_moteur {Eteint, Allume};
+int8_t position_moteur = -127;
 
 int main() {
     
     printf("Debut du programme servo-moteur-I2C\r\n");
 
     char read_buffer[10];
-    char write_buffer[10];
+    char write_buffer[10] = { '\0' };
 
-    for (int i = 0; i < sizeof(write_buffer); i++) {
+    for (unsigned int i = 0; i < sizeof(write_buffer); i++) {
         write_buffer[i] = 'A';
     }
     write_buffer[9] = '\0';
@@ -42,21 +43,30 @@ int main() {
 
         // Attendre une requête du master
         int i2c_receive = slave.receive();
-        //printf("i = 0x%x\r\n", i);
 
         // Traiter la requête
         switch (i2c_receive) {
 
             // Si le master envoie une requête de lecture
             case I2CSlave::ReadAddressed:
-                printf("ReadAddressed\n");
-                ThisThread::sleep_for(100ms);
-                ///////////////////////////////////////////
-                // Retourner l'état du moteur (sa position ou OFF sous forme d'une chaine de caractères)
-                ///////////////////////////////////////////
+                
+                // Renvoyer l'état du moteur
+                if (etat_moteur == Eteint) {
+                    sprintf(write_buffer, "OFF");
+                }
+                else {
+                    sprintf(write_buffer, "%d", position_moteur);
+                }
+                slave.write(write_buffer, sizeof(write_buffer));
+                
+                printf("Demande état moteur : %s\r\n", write_buffer);
 
-                //slave.write(write_buffer, strlen(write_buffer) + 1); // Includes null char
-                //slave.stop();
+                // Vider le buffer d'écriture
+                for (unsigned int i = 0; i < sizeof(write_buffer); i++) {
+                    write_buffer[i] = '\0';
+                }
+                
+                ThisThread::sleep_for(100ms);
 
                 break;
 
@@ -73,14 +83,17 @@ int main() {
                 printf("Commande moteur : %d\r\n", commande_recue);
 
                 if (commande_recue == 126) {
+                    etat_moteur = Allume;
                     moteur.resume();
                     moteur.period_ms(20);
                     moteur.pulsewidth_us(1500);
                 }
                 else if (commande_recue == 127) {
+                    etat_moteur = Eteint;
                     moteur.suspend();
                 }
                 else if (commande_recue >= -90 && commande_recue <= 90) {
+                    position_moteur = commande_recue;
                     uint16_t pulse_width = 1500 + commande_recue * 6.666;
                     moteur.period_ms(20);
                     moteur.pulsewidth_us(pulse_width);
